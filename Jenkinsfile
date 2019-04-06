@@ -4,18 +4,18 @@ String targetDir = "${env.targetDir}"
 String serviceName = "${env.serviceName}"
 String user = "${env.user}"
 
-def jarName
 
 node("master"){
     stage("checkout"){
         checkout scm
     }
     
-    stage("build"){
-        
-        sh "/usr/local/go/bin/${buildShell} "
-        
-        sh """ mkdir -p /srv/salt/${serviceName} 
+    stage("build"){   
+        sh """ 
+               export GOPATH=/usr/local/go
+               export PATH=$PATH:\$GOPATH
+               ${buildShell}
+               mkdir -p /srv/salt/${serviceName} 
                tar zcf ${serviceName}.tar.gz main static service.sh 
                rm -fr /srv/salt/${serviceName}/*
                mv ${serviceName}.tar.gz /srv/salt/${serviceName} 
