@@ -13,7 +13,7 @@ node("master"){
     stage("build"){   
         sh """ 
                export GOPATH=/usr/local/go
-               export PATH=$PATH:\$GOPATH
+               export PATH=$PATH:\$GOPATH/bin
                ${buildShell}
                mkdir -p /srv/salt/${serviceName} 
                tar zcf ${serviceName}.tar.gz main static service.sh 
