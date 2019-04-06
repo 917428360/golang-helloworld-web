@@ -4,8 +4,6 @@ import (
 	"fmt"
 	// "html/template"
 	"io"
-	"os"
-	"log"
 	"net/http"
 )
 
@@ -17,22 +15,12 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	logfile,err := os.OpenFile("/data/log/mylog",os.O_RDWR|os.O_CREATE,0666)
-	if err != nil {
-		fmt.Printf("%s\r\n",err.Error())
-		os.Exit(-1)
-	}
-	defer logfile.Close()
-	logger:=log.New(logfile,"INFO:",log.Ldate|log.Ltime|log.Llongfile)
-	logger.Println("hello^^")
-	logger.Println("server begin...")
-
 	http.HandleFunc("/", hello)
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
-	err1 := http.ListenAndServe(":80", nil)
+	err1 := http.ListenAndServe(":9009", nil)
 	if err1 != nil {
-		fmt.Println("Listen And Server", err.Error())
+		fmt.Println("Listen And Server", err1.Error())
 	}
 }
