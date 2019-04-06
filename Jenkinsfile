@@ -12,7 +12,8 @@ node("master"){
     }
     
     stage("build"){
-        sh "${buildShell} "
+        
+        sh "/usr/local/go/bin/${buildShell} "
         
         sh """ mkdir -p /srv/salt/${serviceName} 
                tar zcf ${serviceName}.tar.gz main static service.sh 
